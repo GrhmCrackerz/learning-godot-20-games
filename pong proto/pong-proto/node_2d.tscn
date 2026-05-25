@@ -1,17 +1,31 @@
 [gd_scene format=3 uid="uid://cq26vet2tr2hn"]
 
-[ext_resource type="Script" uid="uid://eikskkdwng58" path="res://Test.cs" id="1_wtcfe"]
+[ext_resource type="Script" uid="uid://dlsglqq2agfti" path="res://ScoreManager.cs" id="1_0hol4"]
 [ext_resource type="Script" uid="uid://cgeyvy3y5wek2" path="res://Movement.cs" id="2_epypp"]
 [ext_resource type="Texture2D" uid="uid://c7dem4mm4yo4c" path="res://icon.svg" id="3_0hol4"]
+[ext_resource type="Script" uid="uid://kf6q7502dbav" path="res://Ball.cs" id="4_q6r6c"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_q6r6c"]
 size = Vector2(20, 105)
 
-[node name="Node2D" type="Node2D" unique_id=1098350605]
-script = ExtResource("1_wtcfe")
+[sub_resource type="CircleShape2D" id="CircleShape2D_0hol4"]
+
+[sub_resource type="FontVariation" id="FontVariation_0hol4"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_epypp"]
+size = Vector2(769.511, 20)
+
+[node name="Main" type="Node2D" unique_id=1098350605 node_paths=PackedStringArray("LeftScoreLabel", "RightScoreLabel", "Ball", "GameOverPanel", "WinnerLabel", "RestartButton")]
+script = ExtResource("1_0hol4")
+LeftScoreLabel = NodePath("CanvasLayer/HBoxContainer/LeftScore")
+RightScoreLabel = NodePath("CanvasLayer/HBoxContainer/RightScore")
+Ball = NodePath("Ball")
+GameOverPanel = NodePath("CanvasLayer/GameOverPanel")
+WinnerLabel = NodePath("CanvasLayer/GameOverPanel/WinnerLabel")
+RestartButton = NodePath("CanvasLayer/GameOverPanel/RestartButton")
 
 [node name="Left Paddle" type="CharacterBody2D" parent="." unique_id=24123350]
-position = Vector2(284, 303)
+position = Vector2(100, 317)
 script = ExtResource("2_epypp")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Left Paddle" unique_id=739769243]
@@ -23,7 +37,7 @@ scale = Vector2(0.15624996, 0.8281249)
 texture = ExtResource("3_0hol4")
 
 [node name="Right Paddle" type="CharacterBody2D" parent="." unique_id=1986038959]
-position = Vector2(961, 289)
+position = Vector2(1077, 306)
 script = ExtResource("2_epypp")
 ActionUp = "paddle_right_up"
 ActionDown = "paddle_right_down"
@@ -35,3 +49,92 @@ shape = SubResource("RectangleShape2D_q6r6c")
 position = Vector2(0, -3.8146973e-06)
 scale = Vector2(0.15624996, 0.8281249)
 texture = ExtResource("3_0hol4")
+
+[node name="Ball" type="CharacterBody2D" parent="." unique_id=1276648095]
+position = Vector2(642, 281)
+script = ExtResource("4_q6r6c")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ball" unique_id=624823543]
+shape = SubResource("CircleShape2D_0hol4")
+
+[node name="Sprite2D" type="Sprite2D" parent="Ball" unique_id=2142193053]
+scale = Vector2(0.125, 0.125)
+texture = ExtResource("3_0hol4")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1968845288]
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer" unique_id=1225314074]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -578.0
+offset_right = 578.0
+offset_bottom = 40.0
+grow_horizontal = 2
+alignment = 1
+
+[node name="LeftScore" type="Label" parent="CanvasLayer/HBoxContainer" unique_id=1434533045]
+layout_mode = 2
+text = "Left Score:"
+
+[node name="Divider" type="Label" parent="CanvasLayer/HBoxContainer" unique_id=366266221]
+layout_mode = 2
+text = "|"
+horizontal_alignment = 1
+
+[node name="RightScore" type="Label" parent="CanvasLayer/HBoxContainer" unique_id=1260353796]
+layout_mode = 2
+text = "Right Score: "
+horizontal_alignment = 2
+
+[node name="GameOverPanel" type="Panel" parent="CanvasLayer" unique_id=912970674]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -340.0
+offset_top = -267.0
+offset_right = -94.28546
+offset_bottom = -117.11627
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(3.0799975, 3.44)
+
+[node name="WinnerLabel" type="Label" parent="CanvasLayer/GameOverPanel" unique_id=1245318667]
+layout_mode = 0
+offset_left = 6.1688385
+offset_top = 15.116278
+offset_right = 242.16884
+offset_bottom = 60.11628
+theme_override_fonts/font = SubResource("FontVariation_0hol4")
+theme_override_font_sizes/font_size = 21
+text = "The Winner is: !"
+vertical_alignment = 1
+
+[node name="RestartButton" type="Button" parent="CanvasLayer/GameOverPanel" unique_id=356677849]
+layout_mode = 0
+offset_left = 88.63643
+offset_top = 91.56977
+offset_right = 170.63643
+offset_bottom = 129.56976
+scale = Vector2(0.91991985, 0.9698659)
+theme_override_font_sizes/font_size = 21
+text = "Restart"
+
+[node name="TopWall" type="StaticBody2D" parent="." unique_id=257295420]
+position = Vector2(641, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TopWall" unique_id=1626691428]
+position = Vector2(-11, 0)
+scale = Vector2(1.6400025, 1)
+shape = SubResource("RectangleShape2D_epypp")
+
+[node name="BottomWall" type="StaticBody2D" parent="." unique_id=2126167098]
+position = Vector2(641, 641)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BottomWall" unique_id=1729230382]
+position = Vector2(-11, 0)
+scale = Vector2(1.6400025, 1)
+shape = SubResource("RectangleShape2D_epypp")
